@@ -14,3 +14,7 @@
         Run in powershell:
         python -m pip install pyautogui
 
+# Run the Bot
+    Open Powershell as ADMINISTRATOR and run:
+        Set-ExecutionPolicy -ExecutionPolicy RemoteSigned
+    Run PowerBot\PowerShell\Epic7.ps1
