@@ -109,6 +109,8 @@ function InputUint16($message) {
 
 function SetWindowSize {
     Move-AU3Win $WinHandle -X $WinInfo.X -Y $WinInfo.Y -Width 1555 -Height 905 | Out-Null
+    $WinHandle = Get-AU3WinHandle -Title $Emulator
+    $WinInfo = Get-AU3WinPos $WinHandle
 }
 
 function WaitForImage($img) {
