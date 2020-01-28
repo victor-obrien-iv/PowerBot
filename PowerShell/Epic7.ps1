@@ -138,6 +138,8 @@ function AutoRun($maxRuns, $maxLeif) {
 
     WinActivate
 
+    $startTime = Get-Date
+
     for ($i=1; $i -le $maxRuns; $i++) {
         "Run $i :"
 
@@ -229,7 +231,15 @@ function AutoRun($maxRuns, $maxLeif) {
         }
     }
 
-    "Completed $numRuns runs"
+    $endTime = Get-Date
+    $time = $endTime - $startTime
+    $hours = $time.Hours
+    $min = $time.Minutes + $hours * 60
+    $sec = $time.Seconds
+    $avgMin = [math]::Round($time.TotalMinutes / $numRuns, 2)
+
+    "Completed $numRuns runs in $min minutes and $sec seconds"
+    "Average run time was $avgMin minutes"
     
     AndroidBack
     Wait
