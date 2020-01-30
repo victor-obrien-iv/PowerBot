@@ -47,7 +47,7 @@ function MoveDirection {
     if ($camp) {
         "Camping" 
         Camp
-        Wait 6
+        WaitForCrossroads $direction
     }
 
     $s = switch ($direction) {
