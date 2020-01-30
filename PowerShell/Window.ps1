@@ -18,6 +18,8 @@ function Wait($sec, $randOff) {
 }
 
 function WinActivate {
+    $WinHandle = Get-AU3WinHandle -Title $Emulator
+    $WinInfo = Get-AU3WinPos $WinHandle
     Show-AU3WinActivate -WinHandle $WinHandle | Out-Null
 }
 
@@ -34,7 +36,6 @@ function MoveMouseInRange($minX, $maxX, $minY, $maxY) {
 }
 
 function MoveMouseTo($xPercent, $yPercent) {
-    $point = Location% $xPercent $yPercent
     $active? = Assert-AU3WinActive $Emulator
     
     if($active? -eq 0) {
@@ -42,6 +43,7 @@ function MoveMouseTo($xPercent, $yPercent) {
         WinActivate
     }
 
+    $point = Location% $xPercent $yPercent
     Move-AU3Mouse $point.X $point.Y | Out-Null
 }
 

@@ -1,4 +1,39 @@
-﻿function TapConfirm {
+﻿function FindButton($img) {
+    $loc = LocateOnScreen($img)
+    
+    if ($loc.Result) {
+        $list = $loc.Output.Split([Environment]::NewLine)
+
+        foreach ($line in $list) {
+            if ($line -match "Box") {
+                $nums = $line.Split(" ")
+                $box = @{}
+                $box["left"] = [int]($nums[0] -replace '\D+(\d+)\D+','$1')
+                $box["top"] = [int]($nums[1] -replace '\D+(\d+)\D+','$1')
+                $box["width"] = [int]($nums[2] -replace '\D+(\d+)\D+','$1')
+                $box["height"] = [int]($nums[3] -replace '\D+(\d+)\D+','$1')
+
+                return $box
+            }
+        }
+    }
+    else { "$img button could not be found!" }
+}
+
+function TapButton($img) {
+    $box = FindButton $img
+    [int]$minX = $box.left + ($box.width / 10)
+    [int]$maxX = $box.left + $box.width - ($box.width / 10)
+    [int]$minY = $box.top + ($box.height / 10)
+    [int]$maxY = $box.top + $box.height - ($box.height / 10)
+    $x = Get-Random -Minimum $minX -Maximum $maxX
+    $y = Get-Random -Minimum $minY -Maximum $maxY
+
+    Move-AU3Mouse $x $y | Out-Null
+    Invoke-AU3MouseClick | Out-Null
+}
+
+function TapConfirm {
     TapInRange 0.85 0.97 0.89 0.95
     "Confirm"
 }

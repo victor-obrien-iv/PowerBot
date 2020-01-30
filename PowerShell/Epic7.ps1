@@ -6,14 +6,13 @@
 . $PSScriptRoot\Raid.ps1
 . $PSScriptRoot\Arena.ps1
 
-$ImageDir = "$PSScriptRoot\..\Images"
-
 $StageClearImage = "$ImageDir\StageClear.png"
 $InsufficientInventoryImage = "$ImageDir\InsufficientInventory.png"
 $InsufficientEnergyImage = "$ImageDir\InsufficientEnergy.png"
 $FriendshipIncreaseImage = "$ImageDir\FriendshipIncrease.png"
 $SelectSupporterImage = "$ImageDir\SelectSupporter.png"
 $StageFailedImage = "$ImageDir\StageFailed2.png"
+$Epic7Image = "$imageDir\Epic7.png"
 
 function NavigateTo($loc) {
     TapNavigationMenu
@@ -258,7 +257,9 @@ $mainMenuActions = @(
 $numActions = $mainMenuActions.Length
 
 function MainMenu($energy) {
-    "Welcome to PineappleBot:Epic7!"
+    SetWindowSize
+
+    "Welcome to PowerBot:Epic7!"
     $mainMenuActions -join "`n"
 
     do {
@@ -333,5 +334,4 @@ function MainMenu($energy) {
     }
 }
 
-SetWindowSize
 MainMenu
