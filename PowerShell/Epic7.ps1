@@ -322,8 +322,8 @@ function MainMenu($energy) {
                     #Pause "Select team and press start."
                     RaidExecutionerDevourer }
                 4 {
-                    NavigateTo HellRaid # TODO scroll down to hell raid
-                    Pause "Select team and press enter."
+                    #NavigateTo HellRaid # TODO scroll down to hell raid
+                    #Pause "Select team and press enter."
                     HellRaidDevourer }
                 5 {
                     #NavigateTo HellRaid # TODO scroll down to hell raid
