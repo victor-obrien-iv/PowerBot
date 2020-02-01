@@ -5,6 +5,7 @@
 . $PSScriptRoot\RunPython.ps1
 . $PSScriptRoot\Raid.ps1
 . $PSScriptRoot\Arena.ps1
+. $PSScriptRoot\Shop.ps1
 
 $StageClearImage = "$ImageDir\StageClear.png"
 $InsufficientInventoryImage = "$ImageDir\InsufficientInventory.png"
@@ -13,10 +14,13 @@ $FriendshipIncreaseImage = "$ImageDir\FriendshipIncrease.png"
 $SelectSupporterImage = "$ImageDir\SelectSupporter.png"
 $StageFailedImage = "$ImageDir\StageFailed2.png"
 $Epic7Image = "$imageDir\Epic7.png"
+$MysticMedalsImage = "$imageDir\Medals.png"
+$CovenantBookmarksImage = "$imageDir\Bookmarks.png"
+$SecretShopConfirmImage = "$imageDir\SecretShopConfirm.png"
 
 function NavigateTo($loc) {
+    WinActivate
     TapNavigationMenu
-
     function battle {
         TapInRange 0.8 0.88 0.75 0.87
     }
@@ -51,12 +55,15 @@ function NavigateTo($loc) {
         Wait
         TapInRange 0.585 0.735 0.765 0.96
     }
-
-    function loadingSelectTeam {
-        # TODO
+    function lobby {
+        TapInRange 0.825 0.91 0.92 0.97
     }
 
     switch ($loc) {
+        SecretShop {
+            lobby
+            TapSecretShop
+        }
         Hero { 
             TapInRange 0.9 0.98 0.15 0.265 }
         Shop { 
@@ -78,7 +85,7 @@ function NavigateTo($loc) {
         Sanctuary {
             TapInRange 0.7 0.8 0.92 0.97 }
         Lobby {
-            TapInRange 0.825 0.91 0.92 0.97 }
+            lobby }
     
         SpiritAlter {
             battle
@@ -253,6 +260,7 @@ $mainMenuActions = @(
     "5. Auto Run"
     "6. Arena"
     "7. Labyrinth"
+    "8. Secret Shop"
 )
 $numActions = $mainMenuActions.Length
 
@@ -330,7 +338,15 @@ function MainMenu($energy) {
                     #NavigateTo HellRaid # TODO scroll down to hell raid
                     #Pause "Select team and press enter."
                     HellRaidExecutioner }
-            }}
+            }
+        }
+        8 {
+            $maxSkystone = InputUint16 "Max amount of Skystone to spend?"
+            $maxGold = InputUint32 "Max amount of gold to spend?"
+
+            NavigateTo SecretShop
+            RollSecretShop $maxSkystone $maxGold
+        }
     }
 }
 

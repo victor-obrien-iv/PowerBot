@@ -17,7 +17,7 @@
             }
         }
     }
-    else { "$img button could not be found!" }
+    else { return $null }
 }
 
 function TapButton($img) {
@@ -29,8 +29,7 @@ function TapButton($img) {
     $x = Get-Random -Minimum $minX -Maximum $maxX
     $y = Get-Random -Minimum $minY -Maximum $maxY
 
-    Move-AU3Mouse $x $y | Out-Null
-    Invoke-AU3MouseClick | Out-Null
+    
 }
 
 function TapConfirm {
@@ -147,4 +146,16 @@ function TapEast {
 function TapWest {
     TapInRange 0.08 0.11 0.685 0.75
     "West"
+}
+
+function TapSecretShop {
+    TapInRange 0.42 0.47 0.21 0.33
+}
+
+function TapRefresh {
+    TapInRange 0.0605 0.28 0.89 0.945
+}
+
+function TapRefreshConfirm {
+    TapInRange 0.51 0.65 0.6 0.645
 }

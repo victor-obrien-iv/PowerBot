@@ -104,7 +104,18 @@ function InputUint16($message) {
             $num = $null
             [uint16]$num = Read-Host -Prompt $message
         } catch {}
-    } while ($num -eq $null)
+    } while ($null -eq $num)
+
+    return $num
+}
+
+function InputUint32($message) {
+    do {
+        try {
+            $num = $null
+            [uint32]$num = Read-Host -Prompt $message
+        } catch {}
+    } while ($null -eq $num)
 
     return $num
 }
