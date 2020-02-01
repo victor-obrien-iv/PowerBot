@@ -7,17 +7,6 @@
 . $PSScriptRoot\Arena.ps1
 . $PSScriptRoot\Shop.ps1
 
-$StageClearImage = "$ImageDir\StageClear.png"
-$InsufficientInventoryImage = "$ImageDir\InsufficientInventory.png"
-$InsufficientEnergyImage = "$ImageDir\InsufficientEnergy.png"
-$FriendshipIncreaseImage = "$ImageDir\FriendshipIncrease.png"
-$SelectSupporterImage = "$ImageDir\SelectSupporter.png"
-$StageFailedImage = "$ImageDir\StageFailed2.png"
-$Epic7Image = "$imageDir\Epic7.png"
-$MysticMedalsImage = "$imageDir\Medals.png"
-$CovenantBookmarksImage = "$imageDir\Bookmarks.png"
-$SecretShopConfirmImage = "$imageDir\SecretShopConfirm.png"
-
 function NavigateTo($loc) {
     WinActivate
     TapNavigationMenu
