@@ -20,16 +20,35 @@
     else { return $null }
 }
 
-function TapButton($img) {
+function TapButton {
+    param (
+        [string]$img,
+        [switch]$noRetry
+    )
     $box = FindButton $img
-    [int]$minX = $box.left + ($box.width / 10)
-    [int]$maxX = $box.left + $box.width - ($box.width / 10)
-    [int]$minY = $box.top + ($box.height / 10)
-    [int]$maxY = $box.top + $box.height - ($box.height / 10)
-    $x = Get-Random -Minimum $minX -Maximum $maxX
-    $y = Get-Random -Minimum $minY -Maximum $maxY
 
-    
+    if ($box) {
+        [int]$minX = $box.left + ($box.width / 10)
+        [int]$maxX = $box.left + $box.width - ($box.width / 10)
+        [int]$minY = $box.top + ($box.height / 10)
+        [int]$maxY = $box.top + $box.height - ($box.height / 10)
+        $x = Get-Random -Minimum $minX -Maximum $maxX
+        $y = Get-Random -Minimum $minY -Maximum $maxY
+        
+        Move-AU3Mouse $x $y | Out-Null
+        Invoke-AU3MouseClick | Out-Null
+
+        return $true
+    }
+    else {
+        if (!$noRetry) {
+            Wait 3
+            return TapButton $img
+        }
+        else {
+            return $false
+        }
+    }
 }
 
 function TapConfirm {
@@ -84,7 +103,7 @@ function TapNPCChallenge {
 }
 
 function TapArenaHell {
-    TapInRange 0.71 0.785 0.225 0.265
+    TapInRange 0.69 0.75 0.175 0.205
     "Arena -> NPC Challenge -> Hell"
 }
 
@@ -150,12 +169,30 @@ function TapWest {
 
 function TapSecretShop {
     TapInRange 0.42 0.47 0.21 0.33
+    "Open secret shop"
 }
 
 function TapRefresh {
     TapInRange 0.0605 0.28 0.89 0.945
+    "Refresh secret shop"
 }
 
 function TapRefreshConfirm {
     TapInRange 0.51 0.65 0.6 0.645
+    "Confirm refresh"
+}
+
+function TapArenaStart {
+    TapInRange 0.585 0.76 0.89 0.95
+    "Arena start"
+}
+
+function TapPvEArena {
+    TapInRange 0.16 0.81 0.26 0.52
+    "PvE Arena"
+}
+
+function TapAuto {
+    TapInRange 0.865 0.89 0.055 0.1
+    "Toggle auto"
 }

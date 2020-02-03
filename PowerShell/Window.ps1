@@ -67,11 +67,14 @@ function ScrollUp($numClicks) {
 
 function ScrollDown($numClicks) {
     if (!$numClicks) { $numClicks = 1 }
-    Invoke-AU3MouseWheel -Direction "down" -NumClicks $numClicks
+
+    for ($i = 0; $i -lt $numClicks; $i++) {
+        Invoke-AU3MouseWheel -Direction "down" -NumClicks 1
+        Wait 0.15 0.15
+    }
+    
     "Scroll Down"
 }
-
-
 
 function Get%MousePos {
     param([switch] $delay)
