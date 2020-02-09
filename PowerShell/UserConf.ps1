@@ -24,4 +24,5 @@ $ArenaDialogueImage = "$imageDir\ArenaDialogue.png"
 $ArenaIgnitionImage = "$imageDir\ArenaIgnition.png"
 $ArenaConfirmImage = "$imageDir\ArenaConfirm.png"
 $InsufficientFlagImage = "$imageDir\InsufficientFlag.png"
+$ArenaRefreshImage = "$imageDir\ArenaRefresh.png"
 

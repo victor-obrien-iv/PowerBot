@@ -70,7 +70,7 @@ function ScrollDown($numClicks) {
 
     for ($i = 0; $i -lt $numClicks; $i++) {
         Invoke-AU3MouseWheel -Direction "down" -NumClicks 1
-        Wait 0.15 0.15
+        Wait 0.5 0.15
     }
     
     "Scroll Down"

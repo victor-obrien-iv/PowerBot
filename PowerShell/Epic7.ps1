@@ -7,6 +7,10 @@
 . $PSScriptRoot\Arena.ps1
 . $PSScriptRoot\Shop.ps1
 
+# checkin
+# supporters
+# dispatch
+
 function NavigateTo($loc) {
     WinActivate
     TapNavigationMenu
@@ -66,7 +70,9 @@ function NavigateTo($loc) {
         Summon { 
             TapInRange 0.8 0.88 0.6 0.7 }
         Arena { 
-            TapInRange 0.7 0.78 0.75 0.87 }
+            TapInRange 0.7 0.78 0.75 0.87 
+            TapPvEArena
+        }
         Battle { 
             battle }
         Adventure {

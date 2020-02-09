@@ -1,21 +1,32 @@
 ﻿function AutoArena {
-    #TapPvEArena
-
     try {
-        # throw [System.AggregateException] "ping"
         TapNPCChallenge
         TapArenaHell
         ArenaLoop -npc
         TapOpponents
+        Wait 2
 
         while ($true) {
             ArenaLoop
-            # tap arena refresh 
+
+            if (TapButton $ArenaRefreshImage -noRetry) {
+                TapButton $SecretShopConfirmImage
+            }
+            else {
+                Write-Host "Unknow arena state, retrying"
+                NavigateTo Arena
+                Wait
+                AutoArena
+            }
         }
     }
     catch [System.AggregateException] {
+        # out of flags
         Write-Host $PSItem.Exception.Message
+        # TODO buy flags from the shop
     }
+
+    AndroidBack
 }
 
 function ArenaLoop {
@@ -33,58 +44,36 @@ function ArenaLoop {
         Wait
 
         if (!$foundFight) {
-            if ($scrolledDown) {
+            if (!$npc -or $scrolledDown) {
+                # not in the npc menu or, 
                 # we're at the bottom of the list and no fights
                 return
             }
             else {
                 # scroll down and look for fights
                 MoveMouseInRange 0.64 0.77 0.54 0.75
-                ScrollDown 5
+                ScrollDown 3
                 $scrolledDown = $true
-                Wait
+                Wait 3
             }
             
         }
         else {
-            if ($npc) {
-                NPCFight
-            }
-            else {
-                Fight
-            }
+            Write-Host "Fight found"
+            Fight @psBoundParameters
+            $scrolledDown = $false
         }
     }
 }
 
-function NPCFight {
-    MoveMouseTo 0.5 0.5
-    WaitForImage $ArenaStartImage
-    Wait
-    TapArenaStart
-
-    $outOfFlag = FindButton $InsufficientFlagImage -noRetry
-
-    if ($outOfFlag) {
-        throw [System.AggregateException] "Out of flags!"
-    }
-    else {
-        Write-Host "Sufficient flags"
-    }
-    
-    WaitForImage $ArenaDialogueImage
-    TapScreen
-    TapAuto
-    WaitForImage $ArenaDialogueImage
-    TapScreen
-    Wait 3
-    TapConfirm
-    Wait 3
-}
-
 function Fight {
+    param (
+        [switch]$npc
+    )
+
     MoveMouseTo 0.5 0.5
     WaitForImage $ArenaStartImage
+    Write-Host "Fight start"
     TapArenaStart
     Wait
 
@@ -97,9 +86,25 @@ function Fight {
         Write-Host "Sufficient flags"
     }
 
-    WaitForImage $ArenaIgnitionImage
+    if ($npc) {
+        WaitForImage $ArenaDialogueImage
+        TapScreen
+    }
+    else {
+        WaitForImage $ArenaIgnitionImage
+    }
+
     TapAuto
-    TapButton $ArenaConfirmImage
+
+    if ($npc) {
+        WaitForImage $ArenaDialogueImage
+        TapScreen
+        Wait 3
+        TapConfirm
+    }
+    else {
+        TapButton $ArenaConfirmImage
+    }
+
     Wait 3
 }
-
