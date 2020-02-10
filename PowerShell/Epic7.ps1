@@ -154,6 +154,17 @@ function AutoRun($maxRuns, $maxLeif) {
     $startTime = Get-Date
 
     for ($i=1; $i -le $maxRuns; $i++) {
+        do {
+            $selectSupporter = LocateOnScreen $SelectSupporterImage
+            if ($selectSupporter.Result) {
+                "Select supporter menu"
+                TapSelectTeam
+                Wait
+            }
+
+            $ready = LocateOnScreen $ReadyImage
+        } until ($ready.Result)
+
         "Run $i :"
 
         TapStart
@@ -231,17 +242,9 @@ function AutoRun($maxRuns, $maxLeif) {
             
         if ($i -ne $maxRuns) {
             TapTryAgain
-            Wait 7
+            Wait 4
 
             # check urgent mission TODO
-
-            $selectSupporter? = LocateOnScreen $SelectSupporterImage
-
-            if ($selectSupporter?.Result) {
-                "Select supporter menu"
-                TapSelectTeam
-                Wait
-            }
         }
     }
 
