@@ -13,7 +13,13 @@
 
 function NavigateTo($loc) {
     WinActivate
-    TapNavigationMenu
+
+    do {
+        TapNavigationMenu
+        Wait
+        $NavMenuOpen = LocateOnScreen $NavigationMenuImage
+    } until ($NavMenuOpen.Result)
+
     function battle {
         TapInRange 0.8 0.88 0.75 0.87
     }
@@ -21,7 +27,13 @@ function NavigateTo($loc) {
     function hunt {
         battle
         Wait
-        TapInRange 0.425 0.73 0.79 0.94
+        # TapInRange 0.425 0.73 0.79 0.94
+        $foundHuntButton = TapButton $HuntImage -untilItDisappears
+
+        if (!$foundHuntButton) { 
+            Write-Host "Not in the battle menu? Retrying"
+            NavigateTo $loc 
+        }
     }
 
     function huntSelect11($x1, $x2, $y1, $y2) {
@@ -166,6 +178,7 @@ function AutoRun($maxRuns, $maxLeif) {
                 Wait
                 AndroidBack
                 Wait
+                AndroidBack
                 break
             }
         }

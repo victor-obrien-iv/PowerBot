@@ -23,7 +23,8 @@
 function TapButton {
     param (
         [string]$img,
-        [switch]$noRetry
+        [switch]$noRetry,
+        [switch]$untilItDisappears
     )
     $box = FindButton $img
 
@@ -38,6 +39,13 @@ function TapButton {
         Move-AU3Mouse $x $y | Out-Null
         Invoke-AU3MouseClick | Out-Null
 
+        if ($untilItDisappears) {
+            do {
+                Wait
+                $retry = TapButton $img -noRetry
+            } until (!$retry)
+        }
+        
         return $true
     }
     else {

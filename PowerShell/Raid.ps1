@@ -8,13 +8,13 @@ function MontInFrontCamp {
     Wait 5
     TapFrontSpeechBubble
     TapDialogue1
-    Wait 10
+    Wait 12
     TapScreen
     Wait 3
     TapScreen
     TapFrontSpeechBubble
     TapDialogue2
-    Wait 10
+    Wait 12
     TapScreen
     Wait 3
     TapScreen
