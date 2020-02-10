@@ -162,7 +162,7 @@ function AutoRun($maxRuns, $maxLeif) {
                 Wait
             }
 
-            $ready = LocateOnScreen $ReadyImage
+            $ready = LocateOnScreen $ManageTeamImage
         } until ($ready.Result)
 
         Write-Host "Run $i :"
@@ -313,44 +313,7 @@ function MainMenu($energy) {
             NavigateTo Arena
             AutoArena }
         7 {
-            $options = @(
-                "1. Raid 1/3 - Secretary Vera"
-                "2. Raid 2/3 - Juleeve Council & Queen Azumashik"
-                "3. Raid 3/3 - Executioner Karkanis & Devourer Arahakan"
-                "4. Hell Raid 1/2 - Devourer Arahakan"
-                "5. Hell Raid 2/2 - Executioner Karkanis"
-            )
-            $numOptions = $options.Length
-
-            $options -join "`n" | Write-Host
-
-            do {
-                $number = InputUint16 "Please enter a number 1 to $numOptions"
-            } until ($number -ge 1 -and $number -le $numOptions)
-
-            WinActivate
-
-            switch ($number) {
-                1 {
-                    RaidSecretary }
-                2 {
-                    #NavigateTo Raid
-                    #Pause "Select team and press enter."
-                    RaidCouncilQueen }
-                3 {
-                    #NavigateTo Raid
-                    #Pause "Select team and press start."
-                    RaidExecutionerDevourer }
-                4 {
-                    #NavigateTo HellRaid # TODO scroll down to hell raid
-                    #Pause "Select team and press enter."
-                    HellRaidDevourer }
-                5 {
-                    #NavigateTo HellRaid # TODO scroll down to hell raid
-                    #Pause "Select team and press enter."
-                    HellRaidExecutioner }
-            }
-        }
+            AutoRaid }
         8 {
             $maxSkystone = InputUint16 "Max amount of Skystone to spend?"
             $maxGold = InputUint32 "Max amount of gold to spend?"

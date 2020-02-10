@@ -1,4 +1,56 @@
-﻿function Camp {
+﻿
+function AutoRaid {
+    $options = @(
+        "1. Raid 1/3 - Secretary Vera"
+        "2. Raid 2/3 - Juleeve Council & Queen Azumashik"
+        "3. Raid 3/3 - Executioner Karkanis & Devourer Arahakan"
+        "4. Hell Raid 1/2 - Devourer Arahakan"
+        "5. Hell Raid 2/2 - Executioner Karkanis"
+    )
+    $numOptions = $options.Length
+
+    $options -join "`n" | Write-Host
+
+    do {
+        $number = InputUint16 "Please enter a number 1 to $numOptions"
+    } until ($number -ge 1 -and $number -le $numOptions)
+
+    WinActivate
+
+    function ready {
+        do {
+            $ready = LocateOnScreen $ManageTeamImage 
+        } until ($ready.Result)
+
+        Pause "Select team and press enter." -alert
+        TapStart
+    }
+
+    switch ($number) {
+        1 {
+            NavigateTo Raid
+            ready
+            RaidSecretary }
+        2 {
+            NavigateTo Raid
+            ready
+            RaidCouncilQueen }
+        3 {
+            NavigateTo Raid
+            ready
+            RaidExecutionerDevourer }
+        4 {
+            NavigateTo HellRaid
+            ready
+            HellRaidDevourer }
+        5 {
+            NavigateTo HellRaid
+            ready
+            HellRaidExecutioner }
+    }
+}
+
+function Camp {
     MontInFrontCamp
 }
 
@@ -74,7 +126,7 @@ function RaidSecretary {
     MoveDirection 'S' -numTimes 2
     MoveDirection 'E' -camp
     WaitForCrossroads 'W'
-    Pause -alert "Please warp to the center waypoint and resume."
+    Pause "Please warp to the center waypoint and resume." -alert 
     MoveDirection 'E'
     MoveDirection 'S'
     MoveDirection 'E'
@@ -92,7 +144,7 @@ function RaidCouncilQueen {
     MoveDirection 'E'
     MoveDirection 'S'
     WaitForCrossroads 'N'
-    Pause -alert "Please warp to the center waypoint and resume."
+    Pause "Please warp to the center waypoint and resume." -alert 
     MoveDirection 'N' -camp
     MoveDirection 'E'
     MoveDirection 'N' -numTimes 2
@@ -101,7 +153,7 @@ function RaidCouncilQueen {
     WaitForCrossroads 'S'
     CompletionBeep
     Wait
-    Pause -complete "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring."
+    Pause "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring." -complete
 }
 
 function RaidExecutionerDevourer {
@@ -110,14 +162,14 @@ function RaidExecutionerDevourer {
     MoveDirection 'N'
     MoveDirection 'E'
     WaitForCrossroads 'W'
-    Pause -alert "Please warp to the center waypoint and resume."
+    Pause "Please warp to the center waypoint and resume." -alert 
     MoveDirection 'W' -camp -numTimes 3
     MoveDirection 'N' -numTimes 3
     MoveDirection 'W'
     WaitForCrossroads 'E'
     CompletionBeep
     Wait
-    Pause -complete "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring."
+    Pause "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring." -complete 
 }
 
 function HellRaidDevourer {
@@ -126,12 +178,12 @@ function HellRaidDevourer {
     MoveDirection 'N' -numTimes 2
     MoveDirection 'N' -camp
     WaitForCrossroads 'W'
-    Pause -alert "At Devourer Arahaken, press enter after defeating the boss."
+    Pause "At Devourer Arahaken, press enter after defeating the boss." -alert
     # TODO press auto
     MoveDirection 'E' -numTimes 2
     MoveDirection 'S'
     WaitForCrossroads 'N'
-    Pause -alert "Please warp to the center waypoint and resume."
+    Pause "Please warp to the center waypoint and resume." -alert
     MoveDirection 'W'
     #wait for fail screen
 }
@@ -143,13 +195,13 @@ function HellRaidExecutioner {
     MoveDirection 'E' -numTimes 2
     MoveDirection 'N' -camp
     WaitForCrossroads 'E'
-    Pause -alert "At Executioner Karkanis, press enter after defeating the boss."
+    Pause "At Executioner Karkanis, press enter after defeating the boss." -alert
     MoveDirection 'W'
     MoveDirection 'S'
     MoveDirection 'W'
     MoveDirection 'N'
     MoveDirection 'E'
     WaitForCrossroads 'W'
-    Pause -complete "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring."
+    Pause "Raid complete! Please warp to the center waypoint and use the Clear Portal to stop exploring." -complete
 }
 
