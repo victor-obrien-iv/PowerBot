@@ -28,11 +28,11 @@ function WaitForCrossroads($direction) {
         'W' { "$ImageDir\West.png" }
     }
 
-    "Waiting for crossroads ($direction)"
+    Write-Host "Waiting for crossroads ($direction)"
 
     WaitForImage $img
 
-    "At crossroads"
+    Write-Host "At crossroads"
 }
 
 function MoveDirection {
@@ -45,7 +45,7 @@ function MoveDirection {
     WaitForCrossroads $direction
 
     if ($camp) {
-        "Camping" 
+        Write-Host "Camping" 
         Camp
         WaitForCrossroads $direction
     }
@@ -61,7 +61,7 @@ function MoveDirection {
 
     MoveMouseTo 0.5 0.5
 
-    "Moving direction $s"
+    Write-Host "Moving direction $s"
 
     if ($numTimes -gt 1) { MoveDirection $direction ($numTimes - 1) }
 }

@@ -157,7 +157,7 @@ function AutoRun($maxRuns, $maxLeif) {
         do {
             $selectSupporter = LocateOnScreen $SelectSupporterImage
             if ($selectSupporter.Result) {
-                "Select supporter menu"
+                Write-Host "Select supporter menu"
                 TapSelectTeam
                 Wait
             }
@@ -165,7 +165,7 @@ function AutoRun($maxRuns, $maxLeif) {
             $ready = LocateOnScreen $ReadyImage
         } until ($ready.Result)
 
-        "Run $i :"
+        Write-Host "Run $i :"
 
         TapStart
         Wait
@@ -176,13 +176,13 @@ function AutoRun($maxRuns, $maxLeif) {
         if ($noEnergy?.Result) {
             if ($maxLeif -gt 0) {
                 $maxLeif--
-                "Buying energy, $maxLeif leifs left"
+                Write-Host "Buying energy, $maxLeif leifs left"
                 TapBuy
                 TapStart
                 Wait
             }
             else {
-                "Out of Leifs"
+                Write-Host "Out of Leifs"
                 AndroidBack
                 Wait
                 AndroidBack
@@ -202,14 +202,14 @@ function AutoRun($maxRuns, $maxLeif) {
             TapStart
         }
 
-        "Running..."
+        Write-Host "Running..."
         Wait $MinRunSec 30
 
         for ($j=1; ; $j++) {
             $done? = LocateOnScreen $StageClearImage
 
             if ($done?.Result) {
-                "Stage Clear detected"
+                Write-Host "Stage Clear detected"
                 $numRuns++
                 Wait
                 TapScreen
@@ -219,7 +219,7 @@ function AutoRun($maxRuns, $maxLeif) {
                     $popup? = LocateOnScreen $FriendshipIncreaseImage
 
                     if ($popup?.Result) {
-                        "Friendship increase popup"
+                        Write-Host "Friendship increase popup"
                         TapScreen
                         Wait
                     }
@@ -232,7 +232,7 @@ function AutoRun($maxRuns, $maxLeif) {
             $failed? = LocateOnScreen $StageFailedImage
 
             if ($failed?.Result) {
-                "Stage Failed, trying again."
+                Write-Host "Stage Failed, trying again."
                 $i--
                 break
             }
@@ -255,8 +255,8 @@ function AutoRun($maxRuns, $maxLeif) {
     $sec = $time.Seconds
     $avgMin = [math]::Round($time.TotalMinutes / $numRuns, 2)
 
-    "Completed $numRuns runs in $min minutes and $sec seconds"
-    "Average run time was $avgMin minutes"
+    Write-Host "Completed $numRuns runs in $min minutes and $sec seconds"
+    Write-Host "Average run time was $avgMin minutes"
     
     AndroidBack
     Wait
@@ -278,8 +278,8 @@ $numActions = $mainMenuActions.Length
 function MainMenu($energy) {
     SetWindowSize
 
-    "Welcome to PowerBot:Epic7!"
-    $mainMenuActions -join "`n"
+    Write-Host "Welcome to PowerBot:Epic7!"
+    $mainMenuActions -join "`n" | Write-Host
 
     do {
         $number = InputUint16 "Please enter a number 1 to $numActions"
@@ -287,22 +287,22 @@ function MainMenu($energy) {
 
     switch ($number) {
         1 {
-            "Dragon hunt"
+            Write-Host "Dragon hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Dragon
             AutoRun -maxLeif $leifs }
         2 { 
-            "Rock hunt"
+            Write-Host "Rock hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Rock
             AutoRun -maxLeif $leifs }
         3 {
-            "Ghost hunt"
+            Write-Host "Ghost hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Ghost
             AutoRun -maxLeif $leifs }
         4 {
-            "Bug hunt"
+            Write-Host "Bug hunt"
             $leifs = InputUint16 "How much energy?"
             NavigateTo Bug
             AutoRun -maxLeif $leifs }
@@ -322,7 +322,7 @@ function MainMenu($energy) {
             )
             $numOptions = $options.Length
 
-            $options -join "`n"
+            $options -join "`n" | Write-Host
 
             do {
                 $number = InputUint16 "Please enter a number 1 to $numOptions"

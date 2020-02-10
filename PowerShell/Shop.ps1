@@ -51,12 +51,12 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         if (find -marks) {
             $gold -= $markCost
             $marksAcquired += 5
-            "Bought Mystic Medals!"
+            Write-Host "Bought Mystic Medals!"
         }
         if (find -medals) {
             $gold -= $medalCost
             $medalsAcquired += 50
-            "Bought Covenant Bookmarks!"
+            Write-Host "Bought Covenant Bookmarks!"
         }
 
         MoveMouseInRange 0.52 0.82 0.165 0.73
@@ -67,12 +67,12 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         if (find -marks) {
             $gold -= $markCost
             $marksAcquired += 5
-            "Bought Covenant Bookmarks!"
+            Write-Host "Bought Covenant Bookmarks!"
         }
         if (find -medals) {
             $gold -= $medalCost
             $medalsAcquired += 50
-            "Bought Mystic Medals!"
+            Write-Host "Bought Mystic Medals!"
         }
         
 
@@ -91,14 +91,14 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         } until ($null -eq $confirmBox)
 
         $skyStone -= 3
-        "$skyStone Skystone left"
+        Write-Host "$skyStone Skystone left"
     }
 
     $goldSpent = $maxGold - $gold
     $skystoneSpent = $maxSkyStone - $skyStone
 
     CompletionBeep
-    "Secret Shopping complete!"
-    "Spent $goldSpent gold and $skystoneSpent Skystones"
-    "Acquired $marksAcquired covenant bookmarks and $medalsAcquired mystic medals"
+    Write-Host "Secret Shopping complete!"
+    Write-Host "Spent $goldSpent gold and $skystoneSpent Skystones"
+    Write-Host "Acquired $marksAcquired covenant bookmarks and $medalsAcquired mystic medals"
 }

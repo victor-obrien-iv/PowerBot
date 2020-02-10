@@ -6,8 +6,6 @@
         Add-Type -TypeDefinition $s
     }
     catch {
-        "$fileName could not be loaded, it may already be loaded."
+        Write-Host "$fileName could not be loaded, it may already be loaded."
     }
 }
-
-ImportCSharp("Location.cs")

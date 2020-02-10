@@ -60,20 +60,22 @@ function Tap($xPercent, $yPercent) {
 }
 
 function ScrollUp($numClicks) {
-    if (!$numClicks) { $numClicks = 1 }
-    Invoke-AU3MouseWheel -Direction "up" -NumClicks $numClicks
-    "Scroll Up"
+    Scroll "up" $numClicks
 }
 
 function ScrollDown($numClicks) {
+    Scroll "down" $numClicks
+}
+
+function Scroll($direction, $numClicks) {
     if (!$numClicks) { $numClicks = 1 }
 
     for ($i = 0; $i -lt $numClicks; $i++) {
-        Invoke-AU3MouseWheel -Direction "down" -NumClicks 1
+        Invoke-AU3MouseWheel -Direction $direction -NumClicks 1
         Wait 0.5 0.15
     }
     
-    "Scroll Down"
+    Write-Host "Scroll $direction"
 }
 
 function Get%MousePos {
