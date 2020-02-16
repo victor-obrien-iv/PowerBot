@@ -17,6 +17,7 @@ function AutoRaid {
 
     WinActivate
 
+    $startTime = Get-Date
     function ready {
         do {
             $ready = LocateOnScreen $ManageTeamImage 
@@ -24,6 +25,7 @@ function AutoRaid {
 
         Pause "Select team and press enter." -alert
         TapStart
+        $startTime = Get-Date
     }
 
     switch ($number) {
@@ -48,10 +50,20 @@ function AutoRaid {
             ready
             HellRaidExecutioner }
     }
+
+    $endTime = Get-Date
+    $time = $endTime - $startTime
+    $hours = $time.Hours
+    $min = $time.Minutes + $hours * 60
+    $sec = $time.Seconds
+
+    Write-Host "This raid run took $min minutes and $sec seconds."
 }
 
 function Camp {
-    MontInFrontCamp
+    # MontInFrontCamp
+    # MontIseriaCamp
+    KayronInBackCamp
 }
 
 function MontInFrontCamp {
@@ -71,6 +83,43 @@ function MontInFrontCamp {
     Wait 3
     TapScreen
 }
+
+function KayronInBackCamp {
+    TapCamp
+    TapPopupConfirm
+    Wait 5
+    TapBackSpeechBubble
+    TapDialogue1
+    Wait 12
+    TapScreen
+    Wait 3
+    TapScreen
+    TapBackSpeechBubble
+    TapDialogue2
+    Wait 12
+    TapScreen
+    Wait 3
+    TapScreen
+}
+
+function MontIseriaCamp {
+    TapCamp
+    TapPopupConfirm
+    Wait 5
+    TapBackSpeechBubble
+    TapDialogue1
+    Wait 12
+    TapScreen
+    Wait 3
+    TapScreen
+    TapDialogue1
+    Wait 12
+    TapScreen
+    Wait 3
+    TapScreen
+}
+
+
 
 function WaitForCrossroads($direction) {
     $img = switch ($direction) {
