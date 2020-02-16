@@ -102,3 +102,30 @@ function RollSecretShop($maxSkyStone, $maxGold) {
     Write-Host "Spent $goldSpent gold and $skystoneSpent Skystones"
     Write-Host "Acquired $marksAcquired covenant bookmarks and $medalsAcquired mystic medals"
 }
+
+function BuyArenaFlags {
+    # NavigateTo Shop
+    # MoveMouseInRange 0.81 0.97 0.27 0.65
+    # Wait 2
+    # ScrollDown
+    # Wait
+
+    # $found = TapButton $ShopFriendshipImage -noRetry
+    # if (!$found) {
+    #     Write-Host "Could not find friendship shop, retrying"
+    #     BuyArenaFlags
+    # }
+
+    # TapInRange 0.67 0.79 0.61 0.65 # tap buy friendship energy
+    TapInRange 0.67 0.79 0.79 0.84 # tab buy friendship flags
+
+    $buy = TapButton $FriendshipBuyImage -noRetry
+    if (!$buy) {
+        Write-Host "No flags to buy"
+        return $false
+    }
+    else {
+        Write-Host "Purchased arena flags"
+        return $true
+    }
+}

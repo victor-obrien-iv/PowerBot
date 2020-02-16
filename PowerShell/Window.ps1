@@ -101,6 +101,7 @@ function Pause {
     if ($alert) { AlertBeep }
     if ($complete) { CompletionBeep }
     Read-Host -Prompt 'Paused. Press Enter to continue' | Out-Null
+    WinActivate
 }
 
 function InputUint16($message) {

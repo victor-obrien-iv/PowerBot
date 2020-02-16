@@ -142,7 +142,7 @@ function NavigateTo($loc) {
         }
     }
 
-    $loc
+    Write-Host $loc
 }
 
 function AutoRun($maxRuns, $maxLeif) {

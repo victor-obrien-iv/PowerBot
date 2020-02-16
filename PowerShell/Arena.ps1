@@ -1,5 +1,9 @@
 ﻿function AutoArena {
+    $retry = $false
+    $gotFlags = $false
+
     try {
+        Wait 2
         TapNPCChallenge
         TapArenaHell
         ArenaLoop -npc
@@ -8,22 +12,41 @@
 
         while ($true) {
             ArenaLoop
+            Wait
 
             if (TapButton $ArenaRefreshImage -noRetry) {
                 TapButton $SecretShopConfirmImage
+                Wait 2
             }
             else {
-                Write-Host "Unknow arena state, retrying"
-                NavigateTo Arena
-                Wait
-                AutoArena
+                if (!$retry) {
+                    $retry = $true
+                    Write-Host "Unknow arena state, retrying"
+                    NavigateTo Arena
+                    Wait
+                    AutoArena
+                }
+                else {
+                    break;
+                }
             }
         }
     }
     catch [System.AggregateException] {
         # out of flags
         Write-Host $PSItem.Exception.Message
-        # TODO buy flags from the shop
+
+        if (!$gotFlags) {
+            TapButton $ArenaConfirmImage
+            Wait 2
+
+            $gotFlags = BuyArenaFlags
+            if ($gotFlags) {
+                Write-Host "Got flags, restarting auto arena"
+                NavigateTo Arena
+                AutoArena
+            }
+        }
     }
 
     AndroidBack
@@ -73,7 +96,6 @@ function Fight {
 
     MoveMouseTo 0.5 0.5
     WaitForImage $ArenaStartImage
-    Write-Host "Fight start"
     TapArenaStart
     Wait
 
@@ -104,6 +126,8 @@ function Fight {
     }
     else {
         TapButton $ArenaConfirmImage
+        Wait
+        TapButton $ArenaConfirmImage -noRetry # league promotion 
     }
 
     Wait 3
