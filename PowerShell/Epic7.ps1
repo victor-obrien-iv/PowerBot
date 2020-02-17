@@ -1,4 +1,11 @@
-﻿. $PSScriptRoot\UserConf.ps1
+﻿[CmdletBinding()]
+param (
+    [Parameter()]
+    [switch]
+    $ExternalControl
+)
+
+. $PSScriptRoot\UserConf.ps1
 . $PSScriptRoot\Window.ps1
 . $PSScriptRoot\Buttons.ps1
 . $PSScriptRoot\Nox.ps1
@@ -6,6 +13,7 @@
 . $PSScriptRoot\Raid.ps1
 . $PSScriptRoot\Arena.ps1
 . $PSScriptRoot\Shop.ps1
+. $PSScriptRoot\Daily.ps1
 
 # checkin
 # supporters
@@ -14,6 +22,7 @@
 function NavigateTo($loc) {
     WinActivate
 
+    
     do {
         TapNavigationMenu
         Wait
@@ -171,9 +180,8 @@ function AutoRun($maxRuns, $maxLeif) {
         Wait
 
         # check for insufficient energy
-        $noEnergy? = LocateOnScreen $InsufficientEnergyImage
-
-        if ($noEnergy?.Result) {
+        $noEnergy = LocateOnScreen $InsufficientEnergyImage
+        if ($noEnergy.Result) {
             if ($maxLeif -gt 0) {
                 $maxLeif--
                 Write-Host "Buying energy, $maxLeif leifs left"
@@ -195,12 +203,13 @@ function AutoRun($maxRuns, $maxLeif) {
         }
 
         # check for insufficient inventory
-        $noInventory? = LocateOnScreen $InsufficientInventoryImage
-
-        if ($noInventory?.Result) {
+        $noInventory = LocateOnScreen $InsufficientInventoryImage
+        if ($noInventory.Result) {
             Pause "Insufficient inventory, please make space."
             TapStart
         }
+
+        # check if auto is turned on
 
         Write-Host "Running..."
         Wait $MinRunSec 30
@@ -324,4 +333,7 @@ function MainMenu($energy) {
     }
 }
 
-MainMenu
+if (!$ExternalControl) {
+    # pass control to the user
+    MainMenu
+}

@@ -9,17 +9,19 @@ function AndroidBack {
 
 function LaunchEmulator {
     Invoke-Item $EmulatorPath
+    Write-Host "Loading Nox" -NoNewline
     
     do {
         Wait 1
         WinActivate
-    } until ($WinHandle -ne 0)
-    
-    WaitForImage $Epic7Image
-    TapButton $Epic7Image
+        Write-Host "." -NoNewline
+    } until ($global:WinHandle -ne 0)
+
+    Write-Host " Complete!"  
 }
 
 function LaunchEpic7 {
-    WaitForImage $Epic7Image
+    Write-Host "Waiting for Epic 7 icon"
     TapButton $Epic7Image
+    Write-Host "Found, launching"
 }

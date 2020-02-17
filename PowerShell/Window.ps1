@@ -1,5 +1,5 @@
-﻿$WinHandle = Get-AU3WinHandle -Title $Emulator
-$WinInfo = Get-AU3WinPos $WinHandle
+﻿$global:WinHandle = Get-AU3WinHandle -Title $Emulator
+$global:WinInfo = Get-AU3WinPos $global:WinHandle
 $DefaultWaitTimeSec = 1
 
 function Wait($sec, $randOff) {
@@ -18,14 +18,14 @@ function Wait($sec, $randOff) {
 }
 
 function WinActivate {
-    $WinHandle = Get-AU3WinHandle -Title $Emulator
-    $WinInfo = Get-AU3WinPos $WinHandle
-    Show-AU3WinActivate -WinHandle $WinHandle | Out-Null
+    $global:WinHandle = Get-AU3WinHandle -Title $Emulator
+    $global:WinInfo = Get-AU3WinPos $global:WinHandle
+    Show-AU3WinActivate -WinHandle $global:WinHandle | Out-Null
 }
 
 function Location%($xPercent, $yPercent) {
-    $x = $WinInfo.X + $xPercent * $WinInfo.Width
-    $y = $WinInfo.Y + $yPercent * $WinInfo.Height
+    $x = $global:WinInfo.X + $xPercent * $global:WinInfo.Width
+    $y = $global:WinInfo.Y + $yPercent * $global:WinInfo.Height
     return @{X=$x; Y=$y}
 }
 
@@ -84,8 +84,8 @@ function Get%MousePos {
     if ($delay) { Wait 6 0 }
     
     $pos = Get-AU3MousePos
-    $x = ($pos.X - $WinInfo.X) / $WinInfo.Width  
-    $y = ($pos.Y - $WinInfo.Y) / $WinInfo.Height
+    $x = ($pos.X - $global:WinInfo.X) / $global:WinInfo.Width  
+    $y = ($pos.Y - $global:WinInfo.Y) / $global:WinInfo.Height
 
     return @{X=$x; Y=$y}
 }
@@ -127,9 +127,9 @@ function InputUint32($message) {
 }
 
 function SetWindowSize {
-    Move-AU3Win $WinHandle -X $WinInfo.X -Y $WinInfo.Y -Width 1555 -Height 905 | Out-Null
-    $WinHandle = Get-AU3WinHandle -Title $Emulator
-    $WinInfo = Get-AU3WinPos $WinHandle
+    Move-AU3Win $global:WinHandle -X $global:WinInfo.X -Y $global:WinInfo.Y -Width 1555 -Height 905 | Out-Null
+    $global:WinHandle = Get-AU3WinHandle -Title $Emulator
+    $global:WinInfo = Get-AU3WinPos $global:WinHandle
 }
 
 function WaitForImage($img) {
