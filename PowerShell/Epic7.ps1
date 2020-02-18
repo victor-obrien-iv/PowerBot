@@ -15,10 +15,6 @@ param (
 . $PSScriptRoot\Shop.ps1
 . $PSScriptRoot\Daily.ps1
 
-# checkin
-# supporters
-# dispatch
-
 function NavigateTo($loc) {
     WinActivate
 
@@ -159,11 +155,11 @@ function AutoRun($maxRuns, $maxLeif) {
     if (!$maxLeif) { $maxLeif = 0 }
 
     WinActivate
-
     $startTime = Get-Date
 
     for ($i=1; $i -le $maxRuns; $i++) {
         do {
+            # check for the select supporter menu
             $selectSupporter = LocateOnScreen $SelectSupporterImage
             if ($selectSupporter.Result) {
                 Write-Host "Select supporter menu"
@@ -171,6 +167,7 @@ function AutoRun($maxRuns, $maxLeif) {
                 Wait
             }
 
+            # check for the select team menu
             $ready = LocateOnScreen $ManageTeamImage
         } until ($ready.Result)
 
@@ -209,15 +206,23 @@ function AutoRun($maxRuns, $maxLeif) {
             TapStart
         }
 
-        # check if auto is turned on
+        Wait 6
+
+        do {
+            # check if auto is turned on
+            $auto = LocateOnScreen $AutoImage
+            if (!$auto.Result) {
+                Write-Host "Auto is off"
+                TapAuto
+            }
+        } until ($auto.Result)
 
         Write-Host "Running..."
         Wait $MinRunSec 30
 
         for ($j=1; ; $j++) {
-            $done? = LocateOnScreen $StageClearImage
-
-            if ($done?.Result) {
+            $done = LocateOnScreen $StageClearImage
+            if ($done.Result) {
                 Write-Host "Stage Clear detected"
                 $numRuns++
                 Wait
@@ -225,22 +230,20 @@ function AutoRun($maxRuns, $maxLeif) {
                 Wait
 
                 do {
-                    $popup? = LocateOnScreen $FriendshipIncreaseImage
-
-                    if ($popup?.Result) {
+                    $popup = LocateOnScreen $FriendshipIncreaseImage
+                    if ($popup.Result) {
                         Write-Host "Friendship increase popup"
                         TapScreen
                         Wait
                     }
-                } until ($popup?.Result -eq $false)
+                } until ($popup.Result -eq $false)
 
                 TapConfirm
                 break
             }
 
-            $failed? = LocateOnScreen $StageFailedImage
-
-            if ($failed?.Result) {
+            $failed = LocateOnScreen $StageFailedImage
+            if ($failed.Result) {
                 Write-Host "Stage Failed, trying again."
                 $i--
                 break
@@ -251,9 +254,10 @@ function AutoRun($maxRuns, $maxLeif) {
             
         if ($i -ne $maxRuns) {
             TapTryAgain
-            Wait 4
+            Wait 2
 
-            # check urgent mission TODO
+            # check urgent mission
+            TapButton $BrownConfirmImage -noRetry
         }
     }
 
@@ -312,12 +316,12 @@ function MainMenu($energy) {
             AutoRun -maxLeif $leifs }
         4 {
             Write-Host "Bug hunt"
-            $leifs = InputUint16 "How much energy?"
+            $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Bug
             AutoRun -maxLeif $leifs }
         5 {
-            $num = InputUint16 "How many times?"
-            AutoRun -maxRuns $num }
+            $leifs = InputUint16 "Use how many leifs?"
+            AutoRun -maxLeif $leifs }
         6 {
             NavigateTo Arena
             AutoArena }
