@@ -1,7 +1,7 @@
 
 function ClearLobbyPopups {
     do {
-        $checkin = TapButton $SecretShopConfirmImage -noRetry
+        $checkin = TapButton $BlueConfirm -noRetry
         if ($checkin) {
             Write-Host "Collect check-in reward"
             Wait

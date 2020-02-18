@@ -81,13 +81,13 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         do {
             TapRefresh
             wait 0.4 0.25
-            $confirmBox = FindButton $SecretShopConfirmImage
+            $confirmBox = FindButton $BlueConfirm
         } until ($null -ne $confirmBox)
 
         
         do {
             TapRefreshConfirm
-            $confirmBox = FindButton $SecretShopConfirmImage
+            $confirmBox = FindButton $BlueConfirm
         } until ($null -eq $confirmBox)
 
         $skyStone -= 3

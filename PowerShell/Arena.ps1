@@ -15,7 +15,7 @@
             Wait
 
             if (TapButton $ArenaRefreshImage -noRetry) {
-                TapButton $SecretShopConfirmImage
+                TapButton $BlueConfirm
                 Wait 2
             }
             else {
@@ -37,7 +37,7 @@
         Write-Host $PSItem.Exception.Message
 
         if (!$gotFlags) {
-            TapButton $ArenaConfirmImage
+            TapButton $GreenConfirmImage
             Wait 2
 
             $gotFlags = BuyArenaFlags
@@ -125,9 +125,9 @@ function Fight {
         TapConfirm
     }
     else {
-        TapButton $ArenaConfirmImage
+        TapButton $GreenConfirmImage
         Wait
-        TapButton $ArenaConfirmImage -noRetry # league promotion 
+        TapButton $GreenConfirmImage -noRetry # league promotion 
     }
 
     Wait 3
