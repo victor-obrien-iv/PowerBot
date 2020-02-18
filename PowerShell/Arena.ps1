@@ -99,7 +99,7 @@ function Fight {
     TapArenaStart
     Wait
 
-    $outOfFlag = FindButton $Global:Images.InsufficientFlag -noRetry
+    $outOfFlag = FindButton $Global:Images.GreenConfirm -noRetry
 
     if ($outOfFlag) {
         throw [System.AggregateException] "Out of flags!"

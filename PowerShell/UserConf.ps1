@@ -26,7 +26,6 @@ $Global:Images = @{
     GreenConfirm = "$imageDir\GreenConfirm.png"
     Hunt = "$imageDir\Hunt.png"
     InsufficientEnergy = "$ImageDir\InsufficientEnergy.png"
-    InsufficientFlag = "$imageDir\InsufficientFlag.png"
     InsufficientInventory = "$ImageDir\InsufficientInventory.png"
     ManageTeam = "$imageDir\ManageTeam.png"
     MysticMedals = "$imageDir\Medals.png"
@@ -36,4 +35,19 @@ $Global:Images = @{
     ShopFriendship = "$imageDir\ShopFriendship.png"
     StageClear = "$ImageDir\StageClear.png"
     StageFailed = "$ImageDir\StageFailed.png"
+}
+
+# check that all files exist
+foreach ($i in $Global:Images.GetEnumerator()) {
+    $abort = $false
+    $exists = [System.IO.File]::Exists($i.Value)
+
+    if (!$exists) {
+        Write-Error "Fatal, image does not exist: $($i.Value)"
+        $abort = $true
+    }
+
+    if ($abort) {
+        Exit-PSSession
+    }
 }
