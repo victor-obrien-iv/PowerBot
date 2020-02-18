@@ -20,7 +20,7 @@ function AutoRaid {
     $startTime = Get-Date
     function ready {
         do {
-            $ready = LocateOnScreen $ManageTeamImage 
+            $ready = LocateOnScreen $Global:Images.ManageTeam 
         } until ($ready.Result)
 
         Pause "Select team and press enter." -alert

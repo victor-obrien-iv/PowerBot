@@ -11,10 +11,10 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         )
 
         $img = if($medals) {
-            $MysticMedalsImage
+            $Global:Images.MysticMedals
         }
         else {
-            $CovenantBookmarksImage
+            $Global:Images.CovenantBookmarks
         }
 
         $box = FindButton $img
@@ -81,13 +81,13 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         do {
             TapRefresh
             wait 0.4 0.25
-            $confirmBox = FindButton $BlueConfirm
+            $confirmBox = FindButton $Global:Images.BlueConfirm
         } until ($null -ne $confirmBox)
 
         
         do {
             TapRefreshConfirm
-            $confirmBox = FindButton $BlueConfirm
+            $confirmBox = FindButton $Global:Images.BlueConfirm
         } until ($null -eq $confirmBox)
 
         $skyStone -= 3
@@ -110,7 +110,7 @@ function BuyArenaFlags {
     # ScrollDown
     # Wait
 
-    # $found = TapButton $ShopFriendshipImage -noRetry
+    # $found = TapButton $Global:Images.ShopFriendship -noRetry
     # if (!$found) {
     #     Write-Host "Could not find friendship shop, retrying"
     #     BuyArenaFlags
@@ -119,7 +119,7 @@ function BuyArenaFlags {
     # TapInRange 0.67 0.79 0.61 0.65 # tap buy friendship energy
     TapInRange 0.67 0.79 0.79 0.84 # tab buy friendship flags
 
-    $buy = TapButton $FriendshipBuyImage -noRetry
+    $buy = TapButton $Global:Images.FriendshipBuy -noRetry
     if (!$buy) {
         Write-Host "No flags to buy"
         return $false

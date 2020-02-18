@@ -18,11 +18,10 @@ param (
 function NavigateTo($loc) {
     WinActivate
 
-    
     do {
         TapNavigationMenu
         Wait
-        $NavMenuOpen = LocateOnScreen $NavigationMenuImage
+        $NavMenuOpen = LocateOnScreen $Global:Images.NavigationMenu
     } until ($NavMenuOpen.Result)
 
     function battle {
@@ -33,7 +32,7 @@ function NavigateTo($loc) {
         battle
         Wait
         # TapInRange 0.425 0.73 0.79 0.94
-        $foundHuntButton = TapButton $HuntImage -untilItDisappears
+        $foundHuntButton = TapButton $Global:Images.Hunt -untilItDisappears
 
         if (!$foundHuntButton) { 
             Write-Host "Not in the battle menu? Retrying"
@@ -160,7 +159,7 @@ function AutoRun($maxRuns, $maxLeif) {
     for ($i=1; $i -le $maxRuns; $i++) {
         do {
             # check for the select supporter menu
-            $selectSupporter = LocateOnScreen $SelectSupporterImage
+            $selectSupporter = LocateOnScreen $Global:Images.SelectSupporter
             if ($selectSupporter.Result) {
                 Write-Host "Select supporter menu"
                 TapSelectTeam
@@ -168,7 +167,7 @@ function AutoRun($maxRuns, $maxLeif) {
             }
 
             # check for the select team menu
-            $ready = LocateOnScreen $ManageTeamImage
+            $ready = LocateOnScreen $Global:Images.ManageTeam
         } until ($ready.Result)
 
         Write-Host "Run $i :"
@@ -177,7 +176,7 @@ function AutoRun($maxRuns, $maxLeif) {
         Wait
 
         # check for insufficient energy
-        $noEnergy = LocateOnScreen $InsufficientEnergyImage
+        $noEnergy = LocateOnScreen $Global:Images.InsufficientEnergy
         if ($noEnergy.Result) {
             if ($maxLeif -gt 0) {
                 $maxLeif--
@@ -200,7 +199,7 @@ function AutoRun($maxRuns, $maxLeif) {
         }
 
         # check for insufficient inventory
-        $noInventory = LocateOnScreen $InsufficientInventoryImage
+        $noInventory = LocateOnScreen $Global:Images.InsufficientInventory
         if ($noInventory.Result) {
             Pause "Insufficient inventory, please make space."
             TapStart
@@ -210,7 +209,7 @@ function AutoRun($maxRuns, $maxLeif) {
 
         do {
             # check if auto is turned on
-            $auto = LocateOnScreen $AutoImage
+            $auto = LocateOnScreen $Global:Images.Auto
             if (!$auto.Result) {
                 Write-Host "Auto is off"
                 TapAuto
@@ -221,7 +220,7 @@ function AutoRun($maxRuns, $maxLeif) {
         Wait $MinRunSec 30
 
         for ($j=1; ; $j++) {
-            $done = LocateOnScreen $StageClearImage
+            $done = LocateOnScreen $Global:Images.StageClear
             if ($done.Result) {
                 Write-Host "Stage Clear detected"
                 $numRuns++
@@ -230,7 +229,7 @@ function AutoRun($maxRuns, $maxLeif) {
                 Wait
 
                 do {
-                    $popup = LocateOnScreen $FriendshipIncreaseImage
+                    $popup = LocateOnScreen $Global:Images.FriendshipIncrease
                     if ($popup.Result) {
                         Write-Host "Friendship increase popup"
                         TapScreen
@@ -242,7 +241,7 @@ function AutoRun($maxRuns, $maxLeif) {
                 break
             }
 
-            $failed = LocateOnScreen $StageFailedImage
+            $failed = LocateOnScreen $Global:Images.StageFailed
             if ($failed.Result) {
                 Write-Host "Stage Failed, trying again."
                 $i--
@@ -257,7 +256,7 @@ function AutoRun($maxRuns, $maxLeif) {
             Wait 2
 
             # check urgent mission
-            TapButton $BrownConfirmImage -noRetry
+            TapButton $Global:Images.BrownConfirm -noRetry
         }
     }
 

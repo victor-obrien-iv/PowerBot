@@ -22,6 +22,6 @@ function LaunchEmulator {
 
 function LaunchEpic7 {
     Write-Host "Waiting for Epic 7 icon"
-    TapButton $Epic7Image
+    TapButton $Global:Images.Epic7
     Write-Host "Found, launching"
 }

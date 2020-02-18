@@ -14,8 +14,8 @@
             ArenaLoop
             Wait
 
-            if (TapButton $ArenaRefreshImage -noRetry) {
-                TapButton $BlueConfirm
+            if (TapButton $Global:Images.ArenaRefresh -noRetry) {
+                TapButton $Global:Images.BlueConfirm
                 Wait 2
             }
             else {
@@ -37,7 +37,7 @@
         Write-Host $PSItem.Exception.Message
 
         if (!$gotFlags) {
-            TapButton $GreenConfirmImage
+            TapButton $Global:Images.GreenConfirm
             Wait 2
 
             $gotFlags = BuyArenaFlags
@@ -62,7 +62,7 @@ function ArenaLoop {
     $scrolledDown = $false
 
     while ($true) {
-        $foundFight = TapButton $ArenaFightImage -noRetry
+        $foundFight = TapButton $Global:Images.ArenaFight-noRetry
 
         Wait
 
@@ -95,11 +95,11 @@ function Fight {
     )
 
     MoveMouseTo 0.5 0.5
-    WaitForImage $ArenaStartImage
+    WaitForImage $Global:Images.ArenaStart
     TapArenaStart
     Wait
 
-    $outOfFlag = FindButton $InsufficientFlagImage -noRetry
+    $outOfFlag = FindButton $Global:Images.InsufficientFlag -noRetry
 
     if ($outOfFlag) {
         throw [System.AggregateException] "Out of flags!"
@@ -109,25 +109,25 @@ function Fight {
     }
 
     if ($npc) {
-        WaitForImage $ArenaDialogueImage
+        WaitForImage $Global:Images.ArenaDialogue
         TapScreen
     }
     else {
-        WaitForImage $ArenaIgnitionImage
+        WaitForImage $Global:Images.ArenaIgnition
     }
 
     TapAuto
 
     if ($npc) {
-        WaitForImage $ArenaDialogueImage
+        WaitForImage $Global:Images.ArenaDialogue
         TapScreen
         Wait 3
         TapConfirm
     }
     else {
-        TapButton $GreenConfirmImage
+        TapButton $Global:Images.GreenConfirm
         Wait
-        TapButton $GreenConfirmImage -noRetry # league promotion 
+        TapButton $Global:Images.GreenConfirm -noRetry # league promotion 
     }
 
     Wait 3

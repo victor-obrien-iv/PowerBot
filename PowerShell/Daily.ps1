@@ -1,7 +1,7 @@
 
 function ClearLobbyPopups {
     do {
-        $checkin = TapButton $BlueConfirm -noRetry
+        $checkin = TapButton $Global:Images.BlueConfirm -noRetry
         if ($checkin) {
             Write-Host "Collect check-in reward"
             Wait
@@ -14,7 +14,7 @@ function ClearLobbyPopups {
             Wait 4
         }
 
-        $dispatch = TapButton $DispatchTryAgainImage -noRetry
+        $dispatch = TapButton $Global:Images.DispatchTryAgain -noRetry
         if ($dispatch) {
             Write-Host "Send out dispatch mission"
             Wait 4
@@ -24,6 +24,6 @@ function ClearLobbyPopups {
 
         TapNavigationMenu
         Wait
-        $NavMenuOpen = LocateOnScreen $NavigationMenuImage
+        $NavMenuOpen = LocateOnScreen $Global:Images.NavigationMenu
     } until ($NavMenuOpen.Result)
 }
