@@ -31,6 +31,9 @@ $Global:Images = @{
     ManageTeam = "$imageDir\ManageTeam.png"
     MysticMedals = "$imageDir\Medals.png"
     NavigationMenu = "$imageDir\NavigationMenu.png"
+    # PetOn = "$imageDir\PetOn.png"
+    # PetOff = "$imageDir\PetOff.png"
+    RunComplete = "$imageDir\RunComplete.png"
     SelectSupporter = "$imageDir\SelectSupporter.png"
     ShopConquestPoints = "$imageDir\ShopConquestPoints.png"
     ShopFriendship = "$imageDir\ShopFriendship.png"
@@ -48,7 +51,7 @@ foreach ($i in $Global:Images.GetEnumerator()) {
         $abort = $true
     }
 
-    if ($abort) {
+    if ($abort) { # TODO fix this so it throws outside the loop
         Read-Host 'One or more errors occured'
         Write-Error 'One or more errors occured' -ErrorAction Stop
     }

@@ -149,9 +149,12 @@ function NavigateTo($loc) {
     Write-Host $loc
 }
 
-function AutoRun($maxRuns, $maxLeif) {
-    if (!$maxRuns) { $maxRuns = 9999 }
-    if (!$maxLeif) { $maxLeif = 0 }
+function AutoRun {
+    param (
+        [int] $maxRuns = 9999,
+        [int] $maxLeif = 0,
+        [switch] $pet
+    )
 
     WinActivate
     $startTime = Get-Date
@@ -171,6 +174,20 @@ function AutoRun($maxRuns, $maxLeif) {
         } until ($ready.Result)
 
         Write-Host "Run $i :"
+
+        # $petOn = LocateOnScreen $Global:Images.PetOn
+        # if (!$petOn.Result) {
+            # $petOn = $true
+            # $on = TapButton $Global:Images.PetOff -noRetry
+            # if (!$on) {
+            #     Write-Host "Could not turn pet on"
+            #     $petOn = $false
+            # }
+            # else {
+            #     Write-Host "Pet auto run is on"
+            #     $petOn = $true
+            # }
+        # }
 
         TapStart
         Wait
@@ -207,56 +224,86 @@ function AutoRun($maxRuns, $maxLeif) {
 
         Wait 6
 
-        do {
-            # check if auto is turned on
-            $auto = LocateOnScreen $Global:Images.Auto
-            if (!$auto.Result) {
-                Write-Host "Auto is off"
-                TapAuto
-            }
-        } until ($auto.Result)
+        # TODO check if pet is on
 
-        Write-Host "Running..."
-        Wait $MinRunSec 30
-
-        for ($j=1; ; $j++) {
-            $done = LocateOnScreen $Global:Images.StageClear
-            if ($done.Result) {
-                Write-Host "Stage Clear detected"
-                $numRuns++
-                Wait
-                TapScreen
-                Wait
-
+        if ($pet) {
+            do {
                 do {
-                    $popup = LocateOnScreen $Global:Images.FriendshipIncrease
-                    if ($popup.Result) {
-                        Write-Host "Friendship increase popup"
-                        TapScreen
-                        Wait
-                    }
-                } until ($popup.Result -eq $false)
+                    Wait
+                    $complete = LocateOnScreen $Global:Images.RunComplete
+                } until ($complete.Result)
 
-                TapConfirm
-                break
-            }
+                $numRuns++
+                Write-Host "Run $numRuns complete"
+                MoveMouseInRange 0.4 0.6 0.4 0.6 # make sure the computer doesn't fall asleep
+                Wait 20
 
-            $failed = LocateOnScreen $Global:Images.StageFailed
-            if ($failed.Result) {
-                Write-Host "Stage Failed, trying again."
-                $i--
-                break
-            }
-
-            Wait 5 5
+                $complete = LocateOnScreen $Global:Images.RunComplete
+                if ($complete.Result) {
+                    Write-Host "Pet runs complete, restarting" # TODO refactor this
+                    TapConfirm
+                    Wait 2
+                    TapTryAgain
+                    Wait 2
+        
+                    # check urgent mission
+                    TapButton $Global:Images.BrownConfirm -noRetry
+                    break
+                }
+            } until ($numRuns -ge $maxRuns)
         }
-            
-        if ($i -ne $maxRuns) {
-            TapTryAgain
-            Wait 2
-
-            # check urgent mission
-            TapButton $Global:Images.BrownConfirm -noRetry
+        else {
+            do {
+                # check if auto is turned on
+                $auto = LocateOnScreen $Global:Images.Auto
+                if (!$auto.Result) {
+                    Write-Host "Auto is off"
+                    TapAuto
+                }
+            } until ($auto.Result)
+    
+            Write-Host "Running..."
+            Wait 60
+    
+            for ($j=1; ; $j++) {
+                $done = LocateOnScreen $Global:Images.StageClear
+                if ($done.Result) {
+                    Write-Host "Stage Clear detected"
+                    $numRuns++
+                    Wait
+                    TapScreen
+                    Wait
+    
+                    do {
+                        $popup = LocateOnScreen $Global:Images.FriendshipIncrease
+                        if ($popup.Result) {
+                            Write-Host "Friendship increase popup"
+                            TapScreen
+                            Wait
+                        }
+                    } until ($popup.Result -eq $false)
+    
+                    TapConfirm
+                    break
+                }
+    
+                $failed = LocateOnScreen $Global:Images.StageFailed
+                if ($failed.Result) {
+                    Write-Host "Stage Failed, trying again."
+                    $i--
+                    break
+                }
+    
+                Wait 5 5
+            }
+                
+            if ($i -ne $maxRuns) {
+                TapTryAgain
+                Wait 2
+    
+                # check urgent mission
+                TapButton $Global:Images.BrownConfirm -noRetry
+            }
         }
     }
 

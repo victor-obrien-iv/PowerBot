@@ -22,7 +22,7 @@ function LocateImage($superImage, $subImage) {
     return $r
 }
 
-function LocateOnScreen($subImage, $confidence) {
+function LocateOnScreen($subImage, $confidence) { # TODO refactor this
     if (!$confidence) { $confidence = 0.7 }
 
     $r = RunPython "LocateOnScreen.py" @($subImage, $confidence)
