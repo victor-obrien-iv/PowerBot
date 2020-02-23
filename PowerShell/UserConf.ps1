@@ -5,7 +5,7 @@ $EmulatorPath = "D:\Program Files\Nox\bin\Nox.exe"
 $Sound = $true
 
 # the directory where bot finds detection images
-$ImageDir = "$PSScriptRoot\..\Images"
+$imageDir = "$PSScriptRoot\..\Images"
 
 # these are the images the bot needs to detect game state
 $Global:Images = @{
@@ -19,22 +19,23 @@ $Global:Images = @{
     BrownConfirm = "$imageDir\BrownConfirm.png"
     CovenantBookmarks = "$imageDir\Bookmarks.png"
     DispatchTryAgain = "$imageDir\DispatchTryAgain.png"
+    DontShowAgainToday = "$imageDir\DontShowAgainToday.png"
     Epic7 = "$imageDir\Epic7.png"
     FriendshipBuy = "$imageDir\FriendshipBuy.png"
-    FriendshipIncrease = "$ImageDir\FriendshipIncrease.png"
-    FriendshipPoints= "$imageDir\FriendshipPoints.png"
+    FriendshipIncrease = "$imageDir\FriendshipIncrease.png"
+    FriendshipPoints = "$imageDir\FriendshipPoints.png"
     GreenConfirm = "$imageDir\GreenConfirm.png"
     Hunt = "$imageDir\Hunt.png"
-    InsufficientEnergy = "$ImageDir\InsufficientEnergy.png"
-    InsufficientInventory = "$ImageDir\InsufficientInventory.png"
+    InsufficientEnergy = "$imageDir\InsufficientEnergy.png"
+    InsufficientInventory = "$imageDir\InsufficientInventory.png"
     ManageTeam = "$imageDir\ManageTeam.png"
     MysticMedals = "$imageDir\Medals.png"
     NavigationMenu = "$imageDir\NavigationMenu.png"
-    SelectSupporter = "$ImageDir\SelectSupporter.png"
+    SelectSupporter = "$imageDir\SelectSupporter.png"
     ShopConquestPoints = "$imageDir\ShopConquestPoints.png"
     ShopFriendship = "$imageDir\ShopFriendship.png"
-    StageClear = "$ImageDir\StageClear.png"
-    StageFailed = "$ImageDir\StageFailed.png"
+    StageClear = "$imageDir\StageClear.png"
+    StageFailed = "$imageDir\StageFailed.png"
 }
 
 # check that all files exist
@@ -48,6 +49,7 @@ foreach ($i in $Global:Images.GetEnumerator()) {
     }
 
     if ($abort) {
-        Exit-PSSession
+        Read-Host 'One or more errors occured'
+        Write-Error 'One or more errors occured' -ErrorAction Stop
     }
 }

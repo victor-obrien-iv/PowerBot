@@ -28,7 +28,7 @@ function AutoRaid {
         $startTime = Get-Date
     }
 
-    switch ($number) {
+    switch ($number) { # TODO check that auto is on
         1 {
             NavigateTo Raid
             ready

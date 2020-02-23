@@ -84,6 +84,7 @@ function ArenaLoop {
         else {
             Write-Host "Fight found"
             Fight @psBoundParameters
+            # TODO check for bonus flag and arena promo/demotion 
             $scrolledDown = $false
         }
     }

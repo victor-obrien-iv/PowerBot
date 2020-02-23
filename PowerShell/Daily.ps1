@@ -7,8 +7,8 @@ function ClearLobbyPopups {
             Wait
         }
 
-        $supporters = LocateOnScreen $FriendshipPointsImage
-        if ($supporters) {
+        $supporters = LocateOnScreen $Global:Images.FriendshipPoints
+        if ($supporters.Result) {
             Write-Host "Dismiss supporter popup"
             TapScreen
             Wait 4
@@ -20,7 +20,16 @@ function ClearLobbyPopups {
             Wait 4
         }
 
+        $ad = TapButton $Global:Images.DontShowAgainToday -noRetry -untilItDisappears
+        if ($ad) {
+            Write-Host "Dismiss popup ad"
+        }
+
         # TODO check for the e7 icon, nox may have crashed
+        $lanuch = TapButton $Global:Images.Epic7 -noRetry
+        if ($lanuch) {
+            Write-Host "Epic 7 appears to have crashed, relaunching"
+        }
 
         TapNavigationMenu
         Wait
