@@ -175,19 +175,16 @@ function AutoRun {
 
         Write-Host "Run $i :"
 
-        # $petOn = DetectImage $Global:Images.PetOn
-        # if (!$petOn) {
-            $petOn = $true
-            # $on = TapImage $Global:Images.PetOff -noRetry
-            # if (!$on) {
-            #     Write-Host "Could not turn pet on"
-            #     $petOn = $false
-            # }
-            # else {
-            #     Write-Host "Pet auto run is on"
-            #     $petOn = $true
-            # }
-        # }
+        if ($pet) {
+            $unchecked = TapImage $Global:Images.Unchecked -noRetry
+            if ($unchecked) { Write-Host "Turned pet on" }
+            else { Write-Host "Pet is on" }
+        }
+        else {
+            $checked = TapImage $Global:Images.Checked -noRetry
+            if ($checked) { Write-Host "Turned pet off" }
+            else { Write-Host "Pet is off" }
+        }
 
         TapStart
         Wait
