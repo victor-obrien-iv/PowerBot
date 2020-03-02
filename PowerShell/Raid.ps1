@@ -20,8 +20,8 @@ function AutoRaid {
     $startTime = Get-Date
     function ready {
         do {
-            $ready = LocateOnScreen $Global:Images.ManageTeam 
-        } until ($ready.Result)
+            $ready = DetectImage $Global:Images.ManageTeam 
+        } until ($ready)
 
         Pause "Select team and press enter." -alert
         TapStart
@@ -30,24 +30,24 @@ function AutoRaid {
 
     switch ($number) { # TODO check that auto is on
         1 {
-            NavigateTo Raid
-            ready
+            # NavigateTo Raid
+            # ready
             RaidSecretary }
         2 {
-            NavigateTo Raid
-            ready
+            # NavigateTo Raid
+            # ready
             RaidCouncilQueen }
         3 {
-            NavigateTo Raid
-            ready
+            # NavigateTo Raid
+            # ready
             RaidExecutionerDevourer }
         4 {
-            NavigateTo HellRaid
-            ready
+            # NavigateTo HellRaid
+            # ready
             HellRaidDevourer }
         5 {
-            NavigateTo HellRaid
-            ready
+            # NavigateTo HellRaid
+            # ready
             HellRaidExecutioner }
     }
 
@@ -63,7 +63,8 @@ function AutoRaid {
 function Camp {
     # MontInFrontCamp
     # MontIseriaCamp
-    KayronInBackCamp
+    # KayronInBackCamp
+    Pause "Camp"
 }
 
 function MontInFrontCamp {

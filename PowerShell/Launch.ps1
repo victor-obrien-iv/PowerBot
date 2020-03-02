@@ -5,10 +5,10 @@ Start-Transcript -OutputDirectory "C:\Users\Victor O'Brien\Documents\PowerBot\Lo
 LaunchEmulator
 LaunchEpic7
 ClearLobbyPopups
-NavigateTo Rock #Dragon
-AutoRun
 NavigateTo Arena
 AutoArena
+NavigateTo Rock #Dragon
+AutoRun
 # alt F4
 Send-AU3Key "^0" | Out-Null
 # pause for user confirmation

@@ -132,16 +132,6 @@ function SetWindowSize {
     $global:WinInfo = Get-AU3WinPos $global:WinHandle
 }
 
-function WaitForImage($img) {
-    do {
-        Wait
-        $check1 = LocateOnScreen $img
-        Wait
-        $check2 = LocateOnScreen $img
-        
-    } until ($check1.Result -and $check2.Result)
-}
-
 function CompletionBeep {
     if ($Sound) {
         [console]::beep(900,300)

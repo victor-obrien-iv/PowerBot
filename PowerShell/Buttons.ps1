@@ -1,4 +1,18 @@
-﻿function FindButton($img) {
+﻿function DetectImage($img) {
+    $loc = LocateOnScreen($img)
+    return $loc.Result
+}
+
+function WaitForImage($img) {
+    do {
+        Wait
+        $check1 = DetectImage $img
+        Wait
+        $check2 = DetectImage $img
+    } until ($check1 -and $check2)
+}
+
+function FindImage($img) {
     $loc = LocateOnScreen($img)
     
     if ($loc.Result) {
@@ -20,13 +34,13 @@
     else { return $null }
 }
 
-function TapButton {
+function TapImage {
     param (
         [string]$img,
         [switch]$noRetry,
         [switch]$untilItDisappears
     )
-    $box = FindButton $img
+    $box = FindImage $img
 
     if ($box) {
         [int]$minX = $box.left + ($box.width / 10)
@@ -42,7 +56,7 @@ function TapButton {
         if ($untilItDisappears) {
             do {
                 Wait
-                $retry = TapButton $img -noRetry
+                $retry = TapImage $img -noRetry
             } until (!$retry)
         }
         
@@ -51,7 +65,7 @@ function TapButton {
     else {
         if (!$noRetry) {
             Wait 3
-            return TapButton $img
+            return TapImage $img
         }
         else {
             return $false

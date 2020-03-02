@@ -21,8 +21,8 @@ function NavigateTo($loc) {
     do {
         TapNavigationMenu
         Wait
-        $NavMenuOpen = LocateOnScreen $Global:Images.NavigationMenu
-    } until ($NavMenuOpen.Result)
+        $NavMenuOpen = DetectImage $Global:Images.NavigationMenu
+    } until ($NavMenuOpen)
 
     function battle {
         TapInRange 0.8 0.88 0.75 0.87
@@ -32,7 +32,7 @@ function NavigateTo($loc) {
         battle
         Wait
         # TapInRange 0.425 0.73 0.79 0.94
-        $foundHuntButton = TapButton $Global:Images.Hunt -untilItDisappears
+        $foundHuntButton = TapImage $Global:Images.Hunt -untilItDisappears
 
         if (!$foundHuntButton) { 
             Write-Host "Not in the battle menu? Retrying"
@@ -162,23 +162,23 @@ function AutoRun {
     for ($i=1; $i -le $maxRuns; $i++) {
         do {
             # check for the select supporter menu
-            $selectSupporter = LocateOnScreen $Global:Images.SelectSupporter
-            if ($selectSupporter.Result) {
+            $selectSupporter = DetectImage $Global:Images.SelectSupporter
+            if ($selectSupporter) {
                 Write-Host "Select supporter menu"
                 TapSelectTeam
                 Wait
             }
 
             # check for the select team menu
-            $ready = LocateOnScreen $Global:Images.ManageTeam
-        } until ($ready.Result)
+            $ready = DetectImage $Global:Images.ManageTeam
+        } until ($ready)
 
         Write-Host "Run $i :"
 
-        # $petOn = LocateOnScreen $Global:Images.PetOn
-        # if (!$petOn.Result) {
-            # $petOn = $true
-            # $on = TapButton $Global:Images.PetOff -noRetry
+        # $petOn = DetectImage $Global:Images.PetOn
+        # if (!$petOn) {
+            $petOn = $true
+            # $on = TapImage $Global:Images.PetOff -noRetry
             # if (!$on) {
             #     Write-Host "Could not turn pet on"
             #     $petOn = $false
@@ -193,8 +193,8 @@ function AutoRun {
         Wait
 
         # check for insufficient energy
-        $noEnergy = LocateOnScreen $Global:Images.InsufficientEnergy
-        if ($noEnergy.Result) {
+        $noEnergy = DetectImage $Global:Images.InsufficientEnergy
+        if ($noEnergy) {
             if ($maxLeif -gt 0) {
                 $maxLeif--
                 Write-Host "Buying energy, $maxLeif leifs left"
@@ -216,8 +216,8 @@ function AutoRun {
         }
 
         # check for insufficient inventory
-        $noInventory = LocateOnScreen $Global:Images.InsufficientInventory
-        if ($noInventory.Result) {
+        $noInventory = DetectImage $Global:Images.InsufficientInventory
+        if ($noInventory) {
             Pause "Insufficient inventory, please make space."
             TapStart
         }
@@ -230,16 +230,16 @@ function AutoRun {
             do {
                 do {
                     Wait
-                    $complete = LocateOnScreen $Global:Images.RunComplete
-                } until ($complete.Result)
+                    $complete = DetectImage $Global:Images.RunComplete
+                } until ($complete)
 
                 $numRuns++
                 Write-Host "Run $numRuns complete"
                 MoveMouseInRange 0.4 0.6 0.4 0.6 # make sure the computer doesn't fall asleep
                 Wait 20
 
-                $complete = LocateOnScreen $Global:Images.RunComplete
-                if ($complete.Result) {
+                $complete = DetectImage $Global:Images.RunComplete
+                if ($complete) {
                     Write-Host "Pet runs complete, restarting" # TODO refactor this
                     TapConfirm
                     Wait 2
@@ -247,7 +247,11 @@ function AutoRun {
                     Wait 2
         
                     # check urgent mission
-                    TapButton $Global:Images.BrownConfirm -noRetry
+                    $urgentMission = TapImage $Global:Images.BrownConfirm -noRetry
+                    if ($urgentMission) {
+                        Write-Host "Urgent mission dismissed"
+                    }
+
                     break
                 }
             } until ($numRuns -ge $maxRuns)
@@ -255,19 +259,19 @@ function AutoRun {
         else {
             do {
                 # check if auto is turned on
-                $auto = LocateOnScreen $Global:Images.Auto
-                if (!$auto.Result) {
+                $auto = DetectImage $Global:Images.Auto
+                if (!$auto) {
                     Write-Host "Auto is off"
                     TapAuto
                 }
-            } until ($auto.Result)
+            } until ($auto)
     
             Write-Host "Running..."
             Wait 60
     
             for ($j=1; ; $j++) {
-                $done = LocateOnScreen $Global:Images.StageClear
-                if ($done.Result) {
+                $done = DetectImage $Global:Images.StageClear
+                if ($done) {
                     Write-Host "Stage Clear detected"
                     $numRuns++
                     Wait
@@ -275,20 +279,20 @@ function AutoRun {
                     Wait
     
                     do {
-                        $popup = LocateOnScreen $Global:Images.FriendshipIncrease
-                        if ($popup.Result) {
+                        $popup = DetectImage $Global:Images.FriendshipIncrease
+                        if ($popup) {
                             Write-Host "Friendship increase popup"
                             TapScreen
                             Wait
                         }
-                    } until ($popup.Result -eq $false)
+                    } until ($popup -eq $false)
     
                     TapConfirm
                     break
                 }
     
-                $failed = LocateOnScreen $Global:Images.StageFailed
-                if ($failed.Result) {
+                $failed = DetectImage $Global:Images.StageFailed
+                if ($failed) {
                     Write-Host "Stage Failed, trying again."
                     $i--
                     break
@@ -302,7 +306,10 @@ function AutoRun {
                 Wait 2
     
                 # check urgent mission
-                TapButton $Global:Images.BrownConfirm -noRetry
+                $urgentMission = TapImage $Global:Images.BrownConfirm -noRetry
+                if ($urgentMission) {
+                    Write-Host "Urgent mission dismissed"
+                }
             }
         }
     }
