@@ -64,7 +64,7 @@ function Camp {
     # MontInFrontCamp
     # MontIseriaCamp
     # KayronInBackCamp
-    Pause "Camp"
+    Pause "Camp" -alert 
 }
 
 function MontInFrontCamp {
@@ -234,8 +234,8 @@ function HellRaidDevourer {
     MoveDirection 'S'
     WaitForCrossroads 'N'
     Pause "Please warp to the center waypoint and resume." -alert
-    MoveDirection 'W'
-    #wait for fail screen
+    MoveDirection 'E'
+    # wait for fail screen
 }
 
 function HellRaidExecutioner {

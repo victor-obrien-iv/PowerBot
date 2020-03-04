@@ -8,6 +8,12 @@ function AndroidBack {
 }
 
 function LaunchEmulator {
+    WinActivate
+    if ($global:WinHandle -ne 0) {
+        Send-AU3Key "!{F4}"| Out-Null # kill nox if it is already open
+        Wait
+    }
+
     Invoke-Item $EmulatorPath
     Write-Host "Loading Nox" -NoNewline
     

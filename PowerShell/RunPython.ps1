@@ -9,7 +9,7 @@
     }
     else {
         Write-Error "Could not find Python 3.X.X
-        is it in your $PATH variable?"
+        is it in your $PATH variable?" -ErrorAction
     }
 }
 

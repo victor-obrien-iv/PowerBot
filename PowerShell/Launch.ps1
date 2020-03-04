@@ -10,7 +10,7 @@ AutoArena
 NavigateTo Rock #Dragon
 AutoRun
 # alt F4
-Send-AU3Key "^0" | Out-Null
+Send-AU3Key "!{F4}" | Out-Null
 # pause for user confirmation
 # powershell quit
 

@@ -263,7 +263,7 @@ function AutoRun {
                 }
             } until ($auto)
     
-            Write-Host "Running..."
+            Write-Host "Running" -NoNewline
             Wait 60
     
             for ($j=1; ; $j++) {
@@ -296,7 +296,10 @@ function AutoRun {
                 }
     
                 Wait 5 5
+                Write-Host "." -NoNewline
             }
+            
+            Write-Host ""
                 
             if ($i -ne $maxRuns) {
                 TapTryAgain
