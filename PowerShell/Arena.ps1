@@ -2,6 +2,9 @@
     $retry = $false
     $gotFlags = $false
 
+    
+    TapImage $Global:Images.ReceiveReward -noRetry
+
     try {
         Wait 2
         TapNPCChallenge
@@ -62,7 +65,7 @@ function ArenaLoop {
     $scrolledDown = $false
 
     while ($true) {
-        $foundFight = TapImage $Global:Images.ArenaFight-noRetry
+        $foundFight = TapImage $Global:Images.ArenaFight -noRetry
 
         Wait
 

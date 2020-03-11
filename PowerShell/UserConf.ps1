@@ -34,6 +34,7 @@ $Global:Images = @{
     MysticMedals = "$imageDir\Medals.png"
     NavigationMenu = "$imageDir\NavigationMenu.png"
     RunComplete = "$imageDir\RunComplete.png"
+    ReceiveReward = "$imageDir\ReceiveReward.png"
     SelectSupporter = "$imageDir\SelectSupporter.png"
     ShopConquestPoints = "$imageDir\ShopConquestPoints.png"
     ShopFriendship = "$imageDir\ShopFriendship.png"
