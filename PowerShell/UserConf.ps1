@@ -17,6 +17,7 @@ $Global:Images = @{
     Auto = "$imageDir\Auto.png"
     BlueConfirm = "$imageDir\BlueConfirm.png"
     BrownConfirm = "$imageDir\BrownConfirm.png"
+    ConquestBuy = "$imageDir\ConquestBuy.png"
     CovenantBookmarks = "$imageDir\Bookmarks.png"
     Checked = "$imageDir\Checked.png"
     DispatchTryAgain = "$imageDir\DispatchTryAgain.png"

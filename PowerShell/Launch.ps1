@@ -7,7 +7,10 @@ LaunchEpic7
 ClearLobbyPopups
 NavigateTo Arena
 AutoArena
-NavigateTo Rock #Dragon
+NavigateTo Ghost #Dragon
+AutoRun
+BuyEnergy
+NavigateTo Ghost #Dragon
 AutoRun
 # alt F4
 Send-AU3Key "!{F4}" | Out-Null

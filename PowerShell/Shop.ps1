@@ -104,19 +104,6 @@ function RollSecretShop($maxSkyStone, $maxGold) {
 }
 
 function BuyArenaFlags {
-    # NavigateTo Shop
-    # MoveMouseInRange 0.81 0.97 0.27 0.65
-    # Wait 2
-    # ScrollDown
-    # Wait
-
-    # $found = TapImage $Global:Images.ShopFriendship -noRetry
-    # if (!$found) {
-    #     Write-Host "Could not find friendship shop, retrying"
-    #     BuyArenaFlags
-    # }
-
-    # TapInRange 0.67 0.79 0.61 0.65 # tap buy friendship energy
     TapInRange 0.67 0.79 0.79 0.84 # tab buy friendship flags
 
     $buy = TapImage $Global:Images.FriendshipBuy -noRetry
@@ -128,4 +115,52 @@ function BuyArenaFlags {
         Write-Host "Purchased arena flags"
         return $true
     }
+}
+
+function BuyEnergy {
+    $energy = $false
+
+    NavigateTo Shop
+    MoveMouseInRange 0.81 0.97 0.27 0.65
+    Wait 2
+    ScrollDown
+    Wait
+
+    $found = TapImage $Global:Images.ShopFriendship -noRetry
+    if (!$found) {
+        Write-Host "Could not find friendship shop, retrying"
+        return BuyEnergy
+    }
+
+    TapInRange 0.67 0.79 0.61 0.65 # tap buy friendship energy
+    $buy = TapImage $Global:Images.FriendshipBuy -noRetry
+    if (!$buy) {
+        Write-Host "No friendship energy to buy"
+    }
+    else {
+        Write-Host "Purchased friendship energy"
+        $energy = $true
+    }
+
+    $found = TapImage $Global:Images.ShopConquestPoints -noRetry
+    if (!$found) {
+        Write-Host "Could not find conquest shop, retrying"
+        return (BuyEnergy -or $energy)
+    }
+
+    foreach ($i in @(1, 2, 3)) {
+        # TODO fix this, arena gear will break it
+        TapInRange 0.67 0.79 0.52 0.57 # tap buy conquest energy 
+        $buy = TapImage $Global:Images.ConquestBuy -noRetry
+        if (!$buy) {
+            Write-Host "No conquest energy to buy"
+            break
+        }
+        else {
+            Write-Host "Purchased conquest energy"
+            $energy = $true
+        }
+    }
+
+    return $energy
 }
