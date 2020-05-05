@@ -2,11 +2,10 @@
     $retry = $false
     $gotFlags = $false
 
-    
+    Wait 3
     TapImage $Global:Images.ReceiveReward -noRetry
 
     try {
-        Wait 2
         TapNPCChallenge
         TapArenaHell
         ArenaLoop -npc
@@ -65,7 +64,7 @@ function ArenaLoop {
     $scrolledDown = $false
 
     while ($true) {
-        $foundFight = TapImage $Global:Images.ArenaFight -noRetry
+        $foundFight = TapImage $Global:Images.ArenaFight -noRetry -untilItDisappears
 
         Wait
 
@@ -129,9 +128,10 @@ function Fight {
         TapConfirm
     }
     else {
-        TapImage $Global:Images.GreenConfirm | Out-Null
-        Wait
-        TapImage $Global:Images.GreenConfirm -noRetry | Out-Null # league promotion 
+        # TapImage $Global:Images.GreenConfirm | Out-Null
+        # Wait
+        # TapImage $Global:Images.GreenConfirm -noRetry | Out-Null # league promotion 
+        TapImage $Global:Images.GreenConfirm -untilItDisappears
     }
 
     Wait 3

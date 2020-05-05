@@ -30,12 +30,14 @@ $Global:Images = @{
     Hunt = "$imageDir\Hunt.png"
     InsufficientEnergy = "$imageDir\InsufficientEnergy.png"
     InsufficientInventory = "$imageDir\InsufficientInventory.png"
+    Lobby = "$imageDir\Lobby.png"
     ManageTeam = "$imageDir\ManageTeam.png"
     MysticMedals = "$imageDir\Medals.png"
     NavigationMenu = "$imageDir\NavigationMenu.png"
     RunComplete = "$imageDir\RunComplete.png"
     ReceiveReward = "$imageDir\ReceiveReward.png"
     SelectSupporter = "$imageDir\SelectSupporter.png"
+    ShopBuy = "$imageDir\ShopBuy.png"
     ShopConquestPoints = "$imageDir\ShopConquestPoints.png"
     ShopFriendship = "$imageDir\ShopFriendship.png"
     StageClear = "$imageDir\StageClear.png"
@@ -44,17 +46,15 @@ $Global:Images = @{
 }
 
 # check that all files exist
+$abort = $false
 foreach ($i in $Global:Images.GetEnumerator()) {
-    $abort = $false
     $exists = [System.IO.File]::Exists($i.Value)
-
     if (!$exists) {
         Write-Error "Fatal, image does not exist: $($i.Value)"
         $abort = $true
     }
-
-    if ($abort) { # TODO fix this so it throws outside the loop
-        Read-Host 'One or more errors occured'
-        Write-Error 'One or more errors occured' -ErrorAction Stop
-    }
+}
+if ($abort) {
+    Read-Host 'One or more errors occured'
+    Write-Error 'One or more errors occured' -ErrorAction Stop
 }

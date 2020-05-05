@@ -21,8 +21,9 @@ function RollSecretShop($maxSkyStone, $maxGold) {
 
         if ($box) {
             buy $box
-            Wait
-            TapBuy
+            Wait 2
+            # TapBuy
+            TapImage $Global:Images.ShopBuy -untilItDisappears -noRetry
 
             return $true
         }
@@ -51,18 +52,17 @@ function RollSecretShop($maxSkyStone, $maxGold) {
         if (find -marks) {
             $gold -= $markCost
             $marksAcquired += 5
-            Write-Host "Bought Mystic Medals!"
+            Write-Host "Bought Covenant Bookmarks!"
         }
         if (find -medals) {
             $gold -= $medalCost
             $medalsAcquired += 50
-            Write-Host "Bought Covenant Bookmarks!"
+            Write-Host "Bought Mystic Medals!"
         }
 
         MoveMouseInRange 0.52 0.82 0.165 0.73
         ScrollDown | Out-Null
         Wait
-
         
         if (find -marks) {
             $gold -= $markCost
@@ -78,8 +78,16 @@ function RollSecretShop($maxSkyStone, $maxGold) {
 
         if ($gold -le $medalCost -or $skyStone -lt 3) { break }
 
+        $numTry = 0
         do {
             TapRefresh
+            $dispatch = TapImage $Global:Images.DispatchTryAgain -noRetry
+            if ($dispatch) {
+                Write-Host "Send out dispatch mission"
+                Wait 4
+            }
+            $numTry++
+            if ($numTry -gt 10) { return }
             wait 0.4 0.25
             $confirmBox = FindImage $Global:Images.BlueConfirm
         } until ($null -ne $confirmBox)

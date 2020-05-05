@@ -165,7 +165,7 @@ function TapDialogue1 {
 }
 
 function TapDialogue2 {
-    TapInRange 0.565 0.91 0.475 0.55
+    TapInRange 0.57 0.91 0.53 0.59
     Write-Host "Dialogue 2"
 }
 

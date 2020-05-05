@@ -18,8 +18,13 @@ param (
 function NavigateTo($loc) {
     WinActivate
 
+    $numTrys = 0;
     do {
         TapNavigationMenu
+        $numTrys++
+        if ($numTrys -gt 100) {
+            Write-Error 'Could not open menu' -ErrorAction Stop
+        }
         Wait
         $NavMenuOpen = DetectImage $Global:Images.NavigationMenu
     } until ($NavMenuOpen)
@@ -208,6 +213,11 @@ function AutoRun {
                 AndroidBack
                 Wait
                 AndroidBack
+                # do {
+                #     AndroidBack
+                #     Wait 3
+                #     $lobby = TapImage $Global:Images.Lobby -noRetry
+                # } until ($lobby)
                 break
             }
         }
@@ -220,8 +230,6 @@ function AutoRun {
         }
 
         Wait 6
-
-        # TODO check if pet is on
 
         if ($pet) {
             do {
@@ -356,25 +364,25 @@ function MainMenu($energy) {
             Write-Host "Dragon hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Dragon
-            AutoRun -maxLeif $leifs }
+            AutoRun -maxLeif $leifs -pet }
         2 { 
             Write-Host "Rock hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Rock
-            AutoRun -maxLeif $leifs }
+            AutoRun -maxLeif $leifs -pet }
         3 {
             Write-Host "Ghost hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Ghost
-            AutoRun -maxLeif $leifs }
+            AutoRun -maxLeif $leifs -pet }
         4 {
             Write-Host "Bug hunt"
             $leifs = InputUint16 "Use how many leifs?"
             NavigateTo Bug
-            AutoRun -maxLeif $leifs }
+            AutoRun -maxLeif $leifs -pet }
         5 {
             $leifs = InputUint16 "Use how many leifs?"
-            AutoRun -maxLeif $leifs }
+            AutoRun -maxLeif $leifs -pet }
         6 {
             NavigateTo Arena
             AutoArena }
