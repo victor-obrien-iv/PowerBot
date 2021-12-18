@@ -7,14 +7,14 @@ LaunchEpic7
 ClearLobbyPopups
 NavigateTo Arena
 AutoArena
-NavigateTo Ghost #Dragon
+NavigateTo Rock # Rock Ghost Dragon Bug
 AutoRun
-BuyEnergy
-NavigateTo Ghost #Dragon
-AutoRun
-# alt F4
-Send-AU3Key "!{F4}" | Out-Null
-# pause for user confirmation
-# powershell quit
+# RollSecretShop 3000 3000000
+# BuyEnergy
+# NavigateTo Dragon # Ghost Rock Bug
+# AutoRun
+
+Send-AU3Key "!{F4}" | Out-Null # alt F4
+
 
 Stop-Transcript

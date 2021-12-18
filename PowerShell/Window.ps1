@@ -1,6 +1,6 @@
 ﻿$global:WinHandle = Get-AU3WinHandle -Title $Emulator
 $global:WinInfo = Get-AU3WinPos $global:WinHandle
-$DefaultWaitTimeSec = 1
+$DefaultWaitTimeSec = 0.05
 
 function Wait($sec, $randOff) {
     if(!$sec) {
@@ -8,7 +8,7 @@ function Wait($sec, $randOff) {
     }
 
     if(!$randOff) {
-        $sec += Get-Random -Minimum 0.01 -Maximum 0.99
+        $sec += Get-Random -Minimum 0.01 -Maximum 0.1
     }
     else {
         $sec += Get-Random -Minimum 0.01 -Maximum $randOff

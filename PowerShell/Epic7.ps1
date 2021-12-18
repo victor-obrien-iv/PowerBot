@@ -25,7 +25,7 @@ function NavigateTo($loc) {
         if ($numTrys -gt 100) {
             Write-Error 'Could not open menu' -ErrorAction Stop
         }
-        Wait
+        Wait 2
         $NavMenuOpen = DetectImage $Global:Images.NavigationMenu
     } until ($NavMenuOpen)
 
@@ -259,6 +259,8 @@ function AutoRun {
 
                     break
                 }
+
+                # TODO add failed run check
             } until ($numRuns -ge $maxRuns)
         }
         else {
@@ -392,7 +394,7 @@ function MainMenu($energy) {
             $maxSkystone = InputUint16 "Max amount of Skystone to spend?"
             $maxGold = InputUint32 "Max amount of gold to spend?"
 
-            NavigateTo SecretShop
+            # NavigateTo SecretShop
             RollSecretShop $maxSkystone $maxGold
         }
     }
